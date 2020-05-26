@@ -34,9 +34,9 @@ namespace GlowServices.Controllers
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public User GetUser(Guid id)
+        public User GetUser(Guid userId)
         {
-            var user = _context.Users.FirstOrDefault(x => x.UserId == id);
+            var user = _context.Users.FirstOrDefault(x => x.UserId == userId);
             //var user = _mockData.GetAllUsers().FirstOrDefault(x => x.UserId == id);
 
             if (user == null)
@@ -74,9 +74,9 @@ namespace GlowServices.Controllers
 
         // DELETE: api/User/5
         [HttpDelete("{id}")]
-        public async Task<int> DeleteUser(Guid id)
+        public async Task<int> DeleteUser(Guid userId)
         {
-            _context.Users.Remove(await _context.Users.FirstOrDefaultAsync(x => x.UserId == id));
+            _context.Users.Remove(await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId));
             return await _context.SaveChangesAsync();
         }
 

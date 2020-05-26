@@ -9,10 +9,10 @@ namespace GlowServices.Repositories.UserRepository
 {
     public interface IUserRepository
     {
-        User GetUser(Guid id);
+        User GetUser(Guid userId);
         IEnumerable<User> GetAllUsers();
         Task<int> AddUser(User newUser);
         Task<int> UpdateUser(User userUpdates);
-        Task<int> DeleteUser(Guid id);
+        Task<int> DeleteUser(Guid userId);
     }
 }

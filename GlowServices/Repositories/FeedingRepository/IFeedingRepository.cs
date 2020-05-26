@@ -8,10 +8,10 @@ namespace GlowServices.Repositories.FeedingRepository
 {
     public interface IFeedingRepository
     {
-        IEnumerable<FeedingItem> GetAllFeedingItems();
-        FeedingItem GetFeedingItem(Guid id);
-        Task<int> AddFeedingItem(FeedingItem newFeedingItem);
+        Task<IEnumerable<FeedingItem>> GetAllFeedingItems(Guid childId);
+        Task<FeedingItem> GetFeedingItem(Guid feedingId);
+        Task<int> AddFeedingItem(FeedingItem feedingItem);
         Task<int> UpdateFeedingItem(FeedingItem feedingItemUpdates);
-        Task<int> DeleteFeedingItem(Guid id);
+        Task<int> DeleteFeedingItem(Guid feedingId);
     }
 }

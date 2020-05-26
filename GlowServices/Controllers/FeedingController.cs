@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GlowServices.Data;
 using GlowServices.Models;
+using GlowServices.Repositories.FeedingRepository;
 
 namespace GlowServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FeedingsController : ControllerBase
+    public class FeedingsController : IFeedingRepository
     {
         private readonly GlowServicesContext _context;
 
@@ -23,88 +24,46 @@ namespace GlowServices.Controllers
 
         // GET: api/Feeding
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FeedingItem>>> GetFeedingItem()
+        public async Task<IEnumerable<FeedingItem>> GetAllFeedingItems(Guid childId)
         {
-            return await _context.FeedingItems.ToListAsync();
+            return await _context.FeedingItems.Where(x => x.ChildId == childId).ToListAsync();
         }
 
         // GET: api/Feeding/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FeedingItem>> GetFeedingItem(Guid id)
+        public async Task<FeedingItem> GetFeedingItem(Guid feedingId)
         {
-            var FeedingItem = await _context.FeedingItems.FindAsync(id);
+            return await _context.FeedingItems.FirstOrDefaultAsync(x => x.FeedingId == feedingId);
+        }  
 
-            if (FeedingItem == null)
-            {
-                return NotFound();
-            }
+        // POST: api/Feeding
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<int> AddFeedingItem(FeedingItem feedingItem)
+        {
+            await _context.AddAsync(feedingItem);
 
-            return FeedingItem;
+            return await _context.SaveChangesAsync();
         }
 
         // PUT: api/Feeding/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFeedingItem(Guid id, FeedingItem FeedingItem)
+        public async Task<int> UpdateFeedingItem(FeedingItem feedingItemUpdates)
         {
-            if (id != FeedingItem.FeedingId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(FeedingItem).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FeedingItemExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Feeding
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<FeedingItem>> PostFeedingItem(FeedingItem FeedingItem)
-        {
-            _context.FeedingItems.Add(FeedingItem);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFeedingItem", new { id = FeedingItem.FeedingId }, FeedingItem);
+            throw new NotImplementedException();
         }
 
         // DELETE: api/Feeding/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<FeedingItem>> DeleteFeedingItem(Guid id)
+        public async Task<int> DeleteFeedingItem(Guid feedingId)
         {
-            var FeedingItem = await _context.FeedingItems.FindAsync(id);
-            if (FeedingItem == null)
-            {
-                return NotFound();
-            }
+            _context.FeedingItems.Remove(await _context.FeedingItems.FirstOrDefaultAsync(x => x.FeedingId == feedingId));
 
-            _context.FeedingItems.Remove(FeedingItem);
-            await _context.SaveChangesAsync();
-
-            return FeedingItem;
+            return await _context.SaveChangesAsync();
         }
 
-        private bool FeedingItemExists(Guid id)
-        {
-            return _context.FeedingItems.Any(e => e.FeedingId == id);
-        }
     }
 }

@@ -30,9 +30,9 @@ namespace GlowServices.Controllers
 
         // GET: api/Child/5
         [HttpGet("{id}")]
-        public Child GetChild(Guid id)
+        public Child GetChild(Guid childId)
         {
-            var child = _context.Children.FirstOrDefault(x => x.ChildId == id);
+            var child = _context.Children.FirstOrDefault(x => x.ChildId == childId);
             //var user = _mockData.GetAllUsers().FirstOrDefault(x => x.UserId == id);
 
             if (child == null)
@@ -69,9 +69,9 @@ namespace GlowServices.Controllers
 
         // DELETE: api/Child/5
         [HttpDelete("{id}")]
-        public async Task<int> DeleteChild(Guid id)
+        public async Task<int> DeleteChild(Guid childId)
         {
-            _context.Children.Remove(await _context.Children.FirstOrDefaultAsync(x => x.ChildId == id));
+            _context.Children.Remove(await _context.Children.FirstOrDefaultAsync(x => x.ChildId == childId));
 
             return await _context.SaveChangesAsync();
         }
