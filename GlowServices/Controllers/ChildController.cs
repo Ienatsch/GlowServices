@@ -43,10 +43,10 @@ namespace GlowServices.Controllers
             return child;
         }
 
-        // PUT: api/Child/5
+        // POST: api/Child
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
+        [HttpPost]
         public async Task<int> AddChild(Child child)
         {
             await _context.AddAsync(child);
@@ -54,10 +54,10 @@ namespace GlowServices.Controllers
             return await _context.SaveChangesAsync();
         }
 
-        // POST: api/Child
+        // PUT: api/Child/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
+        [HttpPut("{id}")]
         public async Task<int> UpdateChild(Child childUpdates)
         {
             var childToUpdate = _context.Children.FirstOrDefaultAsync(x => x.ChildId == childUpdates.ChildId);

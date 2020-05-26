@@ -59,10 +59,10 @@ namespace GlowServices.Controllers
             return await _context.SaveChangesAsync();
         }
 
-        // POST: api/User
+        // PUT: api/User/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
+        [HttpPut("{id}")]
         public async Task<int> UpdateUser(User userUpdates)
         {
             var userToUpdate = _context.Users.FirstOrDefaultAsync(x => x.UserId == userUpdates.UserId);
