@@ -9,9 +9,9 @@ namespace GlowServices.Models
         public Guid FeedingId { get; set; }
         public Guid ChildId { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Time { get; set; }
+        public TimeSpan Time { get; set; }
         public int Oz { get; set; }
-        public DateTime TimeSinceLastFeed { get; set; }
+        public TimeSpan TimeSinceLastFeed { get; set; }
 
     }
 }
