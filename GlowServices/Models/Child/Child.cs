@@ -9,7 +9,7 @@ namespace GlowServices.Models.child
     public class Child
     {
         [Key]
-        public Guid ChildId { get; set; }
+        public Guid? ChildId { get; set; }
         public Guid UserId { get; set; }
         public string ChildFirstName { get; set; }
         public DateTime ChildBirthDate { get; set; }
@@ -17,5 +17,6 @@ namespace GlowServices.Models.child
         public string ChildHeightType { get; set; }
         public int ChildWeight { get; set; }
         public string ChildWeightType { get; set; }
+        public char ChildGender { get; set; }
     }
 }

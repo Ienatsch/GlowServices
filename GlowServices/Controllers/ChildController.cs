@@ -21,15 +21,15 @@ namespace GlowServices.Controllers
             _context = context;
         }
 
-        // GET: api/Child
-        [HttpGet]
-        public IEnumerable<Child> GetAllChildren()
-        {
-            return _context.Children;
+        // GET: api/Child/{userId}
+        [HttpGet("{userId}")]
+        public IEnumerable<Child> GetChildrenByUser(Guid userId)
+        {   
+            return _context.Children.Where(x => x.UserId == userId);
         }
 
         // GET: api/Child/5
-        [HttpGet("{id}")]
+        [HttpGet("GetChild/{id}")]
         public Child GetChild(Guid childId)
         {
             var child = _context.Children.FirstOrDefault(x => x.ChildId == childId);
@@ -46,9 +46,11 @@ namespace GlowServices.Controllers
         // POST: api/Child
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Route("AddChild")]
         [HttpPost]
-        public async Task<int> AddChild(Child child)
+        public async Task<int> AddChild([FromBody] Child child)
         {
+            child.ChildId = Guid.NewGuid();
             await _context.AddAsync(child);
 
             return await _context.SaveChangesAsync();
@@ -68,7 +70,7 @@ namespace GlowServices.Controllers
         }
 
         // DELETE: api/Child/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{childId}")]
         public async Task<int> DeleteChild(Guid childId)
         {
             _context.Children.Remove(await _context.Children.FirstOrDefaultAsync(x => x.ChildId == childId));

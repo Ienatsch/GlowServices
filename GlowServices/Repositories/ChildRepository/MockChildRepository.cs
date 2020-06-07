@@ -22,7 +22,7 @@ namespace GlowServices.Repositories.UserRepository
 
         }
 
-        public IEnumerable<Child> GetAllChildren()
+        public IEnumerable<Child> GetChildrenByUser(Guid userId)
         {
             return _childList;
         }

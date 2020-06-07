@@ -9,7 +9,7 @@ namespace GlowServices.Repositories.ChildRepository
     public interface IChildRepository
     {
         Child GetChild(Guid childId);
-        IEnumerable<Child> GetAllChildren();
+        IEnumerable<Child> GetChildrenByUser(Guid userId);
         Task<int> AddChild(Child newChild);
         Task<int> UpdateChild(Child childUpdates);
         Task<int> DeleteChild(Guid childId);
