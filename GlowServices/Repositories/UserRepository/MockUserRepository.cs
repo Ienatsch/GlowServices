@@ -55,5 +55,10 @@ namespace GlowServices.Repositories.UserRepository
             throw new NotImplementedException();
         }
 
+        public Task<IActionResult> LoginUser([FromQuery] string username, [FromQuery] string password)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

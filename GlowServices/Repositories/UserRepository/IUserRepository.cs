@@ -14,5 +14,6 @@ namespace GlowServices.Repositories.UserRepository
         Task<int> AddUser(User newUser);
         Task<int> UpdateUser(User userUpdates);
         Task<int> DeleteUser(Guid userId);
+        Task<IActionResult> LoginUser([FromQuery] string username, [FromQuery] string password);
     }
 }

@@ -12,17 +12,15 @@ namespace GlowServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : IUserRepository
+    public class UserController : ControllerBase, IUserRepository
     {
         private readonly GlowServicesContext _context;
-        private MockUserRepository _mockData;
         private IEncryptionService _encryptionService;
 
         public UserController(GlowServicesContext context, IEncryptionService encryptionService)
         {
             _context = context;
             _encryptionService = encryptionService;
-            _mockData = new MockUserRepository(_encryptionService);
         }
 
         // GET: api/User
@@ -47,14 +45,16 @@ namespace GlowServices.Controllers
             return user;
         }
 
-        // PUT: api/User
+        // Post: api/User
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Route("Register")]
         [HttpPost]
-        public async Task<int> AddUser(User newUser)
+        public async Task<int> AddUser([FromBody] User newUser)
         {
+            newUser.UserId = Guid.NewGuid();
             newUser.UserPassword = _encryptionService.Encrypt(newUser.UserPassword);
-            await _context.AddAsync(newUser);
+            await _context.Users.AddAsync(newUser);
 
             return await _context.SaveChangesAsync();
         }
@@ -80,5 +80,17 @@ namespace GlowServices.Controllers
             return await _context.SaveChangesAsync();
         }
 
+        [Route("LoginUser")]
+        [HttpPost]    
+        public async Task<IActionResult> LoginUser([FromQuery] string username, [FromQuery] string password)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserUsername == username);
+            var d = _encryptionService.Decrypt(user.UserPassword);
+            if (user != null && _encryptionService.Decrypt(user.UserPassword) == password)
+            {
+                return Ok(user); 
+            }
+            return BadRequest();
+        }
     }
 }
