@@ -22,6 +22,11 @@ namespace GlowServices
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:44305"));
+            });
+
             services.AddDbContextPool<GlowServicesContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("GlowDB")));
 
@@ -33,6 +38,7 @@ namespace GlowServices
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -45,6 +51,7 @@ namespace GlowServices
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(options => options.WithOrigins("https://localhost:44305"));
 
             app.UseAuthorization();
 
