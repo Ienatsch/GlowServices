@@ -19,6 +19,6 @@ namespace GlowServices.Data
 
         public DbSet<FeedingItem> Feedings { get; set; }
 
-        public DbSet<SleepItem> SleepItems { get; set; }}
+        public DbSet<SleepItem> SleepItems { get; set; }
     }
 }
