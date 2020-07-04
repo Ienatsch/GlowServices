@@ -85,12 +85,11 @@ namespace GlowServices.Controllers
         public async Task<IActionResult> LoginUser([FromQuery] string username, [FromQuery] string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.UserUsername == username);
-            var d = _encryptionService.Decrypt(user.UserPassword);
             if (user != null && _encryptionService.Decrypt(user.UserPassword) == password)
             {
                 return Ok(user); 
             }
-            return BadRequest();
+            return StatusCode(401);
         }
     }
 }

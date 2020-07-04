@@ -2,6 +2,7 @@
 using GlowServices.Models.user;
 using GlowServices.Models.child;
 using GlowServices.Models;
+using GlowServices.Models.Sleep;
 
 namespace GlowServices.Data
 {
@@ -16,6 +17,8 @@ namespace GlowServices.Data
 
         public DbSet<Child> Children { get; set; }
 
-        public DbSet<FeedingItem> FeedingItems { get; set; }
+        public DbSet<FeedingItem> Feedings { get; set; }
+
+        public DbSet<SleepItem> SleepItems { get; set; }}
     }
 }
